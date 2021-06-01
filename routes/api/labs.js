@@ -94,7 +94,16 @@ router.post("/login", (req, res) => {
       });
     });
   });
-  //get all user appointments
+  //get all lab list
+  router.get("/",async (req,res)=>{
+    try{
+        const labs= await Lab.find({});
+        res.status(201).send(labs);
+    }catch(err){
+      res.status(500).send("Error "+err)
+    }
+  })
+  //get all user appointments request
   router.get("/appointments/request/:id",async(req,res)=>{
     try{
       const id=req.params.id;
