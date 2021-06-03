@@ -1,12 +1,11 @@
 const express = require("express");
 const mongoose=require("mongoose");
+const router = express.Router();
 
 const Report = require("../../models/Report");
 
 router.post("/", (req, res) => {
-    
-    Report.findOne().then(report => {
-
+      try{
         const newReport = new Report({
           pregnancies: req.body.pregnancies,
           glucose:req.body.glucose,
@@ -17,16 +16,23 @@ router.post("/", (req, res) => {
           diabetesPedigreeFunction:req.body.diabetesPedigreeFunction,
           age:req.body.age
         });
-    });
+        if(!newReport)
+          return res.status(404).send("report Not saved")
+        newReport.save();
+        res.status(201).send(newReport);
+      }catch(err){
+        res.status(500).send("Error "+err.message)
+      }
+  
   });   
 
 
 router.get("/",async (req,res)=>{
     try{
-        const report= await Report.find({});
-        res.status(201).send(report);
+        const reports= await Report.find({});
+        res.status(201).send(reports);
     }catch(err){
-      res.status(500).send("Error "+err)
+      res.status(500).send("Error "+err.message)
     }
   })
 

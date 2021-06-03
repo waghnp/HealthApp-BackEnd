@@ -101,7 +101,7 @@ router.post("/login", (req, res) => {
         const labs= await Lab.find({});
         res.status(201).send(labs);
     }catch(err){
-      res.status(500).send("Error "+err)
+      res.status(500).send("Error "+err.message)
     }
   })
   //get all user appointments request

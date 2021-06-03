@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const users = require("./routes/api/users");
 const labs= require("./routes/api/labs");
+const reports = require("./routes/api/reports");
 
 const app = express();// Bodyparser middleware
 
@@ -32,7 +33,7 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 app.use("/api/labs",labs);
-app.use("/api/reportRoute",report);
+app.use("/api/reports",reports);
 
   const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy the app thereapp.listen(port, () => console.log(`Server up and running on port ${port} !`));
 

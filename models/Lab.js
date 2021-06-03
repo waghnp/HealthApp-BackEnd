@@ -50,10 +50,6 @@ const LabSchema = new Schema({
         isAccepted:{
           type:Boolean,
           default:false
-        },
-        isSlotAlloted:{
-          type:Boolean,
-          default:false
         }
     },
   ]
