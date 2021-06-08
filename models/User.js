@@ -46,15 +46,14 @@ const UserSchema = new Schema({
             type:String
         },
         date:{
-            type:Date,
-            default:Date.now
+            type:String
         },
         time:{
             type:String
         },
         status:{
             type:Boolean,
-            default:false
+            default:true
         }
     },
   ]

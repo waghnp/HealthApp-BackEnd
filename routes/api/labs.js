@@ -128,7 +128,7 @@ router.post("/login", (req, res) => {
               return  res.status(404).send("Lab not found so cannot update appointment request")
             }
             const labAppointment={
-                // id:mongoose.Types.ObjectId(),
+                userId:req.body.id,
                 name:req.body.name,
                 mobileNum:req.body.mobileNum,
                 email:req.body.email,

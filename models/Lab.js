@@ -35,8 +35,8 @@ const LabSchema = new Schema({
   },
   labAppointments:[
     {
-      id: {
-        type: mongoose.Schema.Types.ObjectId
+      userId: {
+        type: String
       },
         name:{
             type:String
