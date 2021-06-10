@@ -124,19 +124,29 @@ router.post("/login", (req, res) => {
         try{
             const id=req.params.id;
             const lab= await Lab.findOne({_id:id});
-            if(!lab){
-              return  res.status(404).send("Lab not found so cannot update appointment request")
+            if(req.body.labAppId){
+      
+              const ap=lab.labAppointments.find( app => app._id==req.body.labAppId);
+              ap.isAccepted=true;
+              const newApp = await lab.save()
+              console.log(newApp.labAppointments)
+              return res.status(201).send(newApp.labAppointments)
+            }else{
+              if(!lab){
+                return  res.status(404).send("Lab not found so cannot update appointment request")
+              }
+              const labAppointment={
+                  userId:req.body.id,
+                  name:req.body.name,
+                  mobileNum:req.body.mobileNum,
+                  email:req.body.email,
+              }
+              lab.labAppointments.unshift(labAppointment);
+              const newLab = await lab.save()
+         
+              return res.status(201).send(newLab.labAppointments[0])
+            
             }
-            const labAppointment={
-                userId:req.body.id,
-                name:req.body.name,
-                mobileNum:req.body.mobileNum,
-                email:req.body.email,
-            }
-            lab.labAppointments.unshift(labAppointment);
-            const newLab = await lab.save()
-            // console.log(newUser)
-            return res.status(201).send(newLab.labAppointments[0])
         }catch(error){
             res.send({Error : error.message})
         }
