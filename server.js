@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-
+const cors = require('cors')
 const users = require("./routes/api/users");
 const labs= require("./routes/api/labs");
 const reports = require("./routes/api/reports");
@@ -14,6 +14,8 @@ app.use(
     extended: false
   })
 );
+app.use(cors())
+
 app.use(bodyParser.json());// DB Config
 const db = require("./config/keys").mongoURI;// Connect to MongoDB
 const { report } = require("./routes/api/labs");
