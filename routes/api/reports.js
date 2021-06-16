@@ -13,9 +13,9 @@ router.post('/predict',async(req,res)=>{
           ...report
         }
       }
-      console.log("prediction req ",requestData)
+      // console.log("prediction req ",requestData)
       const result = await axios.post('https://diabeteshealthapp.herokuapp.com/predict',requestData);
-      console.log('prediction ',result.data)
+      // console.log('prediction ',result.data)
       if(result){
         return res.status(201).send(result.data)
       }
@@ -28,6 +28,7 @@ router.post('/predict',async(req,res)=>{
 router.post("/", (req, res) => {
       try{
         const newReport = new Report({
+          userId:req.body.userId,
           pregnancies: req.body.Pregnancies,
           glucose:req.body.Glucose,
           bloodPressure: req.body.BloodPressure,
@@ -35,7 +36,8 @@ router.post("/", (req, res) => {
           insulin:req.body.Insulin,
           bmi: req.body.BMI,
           diabetesPedigreeFunction:req.body.DiabetesPedigreeFunction,
-          age:req.body.Age
+          age:req.body.Age,
+          prediction:req.body.prediction
         });
         if(!newReport)
           return res.status(404).send("report Not saved")
@@ -48,9 +50,10 @@ router.post("/", (req, res) => {
   });   
 
 
-router.get("/",async (req,res)=>{
+router.get("/:id",async (req,res)=>{
     try{
-        const reports= await Report.find({});
+        const id=req.params.id;
+        const reports= await Report.find({userId:id});
         res.status(201).send(reports);
     }catch(err){
       res.status(500).send("Error "+err.message)

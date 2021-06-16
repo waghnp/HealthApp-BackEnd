@@ -37,6 +37,10 @@ const ReportSchema = new Schema({
   age: {
     type: Number,
     required:true
+  },
+  prediction:{
+    type:String,
+    required:true
   }
 });
 
