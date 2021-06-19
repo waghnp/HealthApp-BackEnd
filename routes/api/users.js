@@ -3,6 +3,7 @@ const mongoose=require("mongoose");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 const keys = require("../../config/keys");
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -91,6 +92,23 @@ router.post("/login", (req, res) => {
       });
     });
   });
+
+  //get nearby hospitals
+  router.get("/hospitals",async(req,res)=>{
+    try{
+        const lat=req.body.lat;
+        const log=req.body.log;
+       
+        const hospitals= await axios.get(`https://discover.search.hereapi.com/v1/discover?at=${lat},${log}&q=hospital%20&apikey=volOjktJQPeTydZis5vLk7VK8KjcP66H2s7k6gg9wD4&limit=10`)
+
+        if(hospitals){
+          return res.status(201).send(hospitals.data.items);
+        }
+        return res.status(404).send("Please Enter correct position of yours");
+    }catch(error){
+      res.send({Error : error.message})
+    } 
+  })
   //get all user appointments
   router.get("/appointments/:id",async(req,res)=>{
     try{
