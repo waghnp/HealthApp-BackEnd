@@ -96,10 +96,13 @@ router.post("/login", (req, res) => {
   //get nearby hospitals
   router.get("/hospitals",async(req,res)=>{
     try{
+        const position=req.body;
+        console.log("position req "+position)
         const lat=req.body.lat;
         const log=req.body.log;
-       
-        const hospitals= await axios.get(`https://discover.search.hereapi.com/v1/discover?at=${lat},${log}&q=hospital%20&apikey=volOjktJQPeTydZis5vLk7VK8KjcP66H2s7k6gg9wD4&limit=10`)
+       console.log("lat ",lat)
+       console.log("log ",log)
+        const hospitals= await axios.get(`https://discover.search.hereapi.com/v1/discover?at=${lat},${log}&q=hospital%20&apikey=volOjktJQPeTydZis5vLk7VK8KjcP66H2s7k6gg9wD4&limit=5`)
 
         if(hospitals){
           return res.status(201).send(hospitals.data.items);
