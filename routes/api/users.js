@@ -98,6 +98,8 @@ router.post("/login", (req, res) => {
     try{
         const position=req.body;
         console.log("position req "+position)
+        console.log("req lat ",req.body.lat);
+        console.log("req log ",req.body.log)
         const lat=req.body.lat;
         const log=req.body.log;
        console.log("lat ",lat)

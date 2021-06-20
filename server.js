@@ -10,14 +10,25 @@ const reports = require("./routes/api/reports");
 const app = express();// Bodyparser middleware
 
 app.use(
+  express.urlencoded({
+    extended: true
+  })
+)
+
+app.use(express.json())
+
+app.use(
   bodyParser.urlencoded({
     extended: false
   })
 );
+
 app.use(cors())
 
-app.use(bodyParser.json());// DB Config
-const db = require("./config/keys").mongoURI;// Connect to MongoDB
+app.use(bodyParser.json());
+// DB Config
+const db = require("./config/keys").mongoURI;
+// Connect to MongoDB
 const { report } = require("./routes/api/labs");
 mongoose
   .connect(
