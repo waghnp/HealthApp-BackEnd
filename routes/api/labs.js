@@ -119,19 +119,27 @@ router.post("/login", (req, res) => {
     }
   })
   //make appointment or update appointment
+  router.patch('/appointment/confirm/:id?',async(req,res)=>{
+      try{
+        const id=req.params.id;
+        // console.log("lab id ",id)
+        const lab= await Lab.findOne({_id:id});
+        const labAppId=req.query.labAppId
+        // console.log("Appoin. Id ",labAppId);
+        const ap=lab.labAppointments.find( app => app._id==labAppId);
+              ap.isAccepted=true;
+              const newApp = await lab.save()
+              console.log(newApp.labAppointments)
+              return res.status(201).send(newApp.labAppointments)
+      }catch(error){
+        res.send({Error : error.message})
+      }
+  })
   router.patch("/appointment/request/:id",async(req,res)=>{
         
         try{
             const id=req.params.id;
             const lab= await Lab.findOne({_id:id});
-            if(req.body.labAppId){
-      
-              const ap=lab.labAppointments.find( app => app._id==req.body.labAppId);
-              ap.isAccepted=true;
-              const newApp = await lab.save()
-              console.log(newApp.labAppointments)
-              return res.status(201).send(newApp.labAppointments)
-            }else{
               if(!lab){
                 return  res.status(404).send("Lab not found so cannot update appointment request")
               }
@@ -145,8 +153,6 @@ router.post("/login", (req, res) => {
               const newLab = await lab.save()
          
               return res.status(201).send(newLab.labAppointments[0])
-            
-            }
         }catch(error){
             res.send({Error : error.message})
         }
